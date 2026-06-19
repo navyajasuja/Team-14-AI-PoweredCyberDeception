@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { loginUser } from '../services/api'
+import { useAuth } from '../context/AuthContext'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const { login } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -20,9 +23,14 @@ function Login() {
 
     try {
       const data = await loginUser(email, password)
+      login(data.token, data.user)
       console.log('Login success:', data)
     } catch (err) {
-      setError('Invalid email or password. Please try again.')
+      if (err.response?.status === 401) {
+        setError('Wrong email or password. Please try again.')
+      } else {
+        setError('Something went wrong. Please try again later.')
+      }
     } finally {
       setLoading(false)
     }
