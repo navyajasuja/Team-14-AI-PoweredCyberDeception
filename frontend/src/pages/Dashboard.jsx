@@ -1,5 +1,7 @@
 import Sidebar from '../components/Sidebar'
 import DashboardNavbar from '../components/DashboardNavbar'
+import AccountBalanceCard from '../components/AccountBalanceCard'
+import TransactionsCard from '../components/TransactionsCard'
 
 function Dashboard() {
   return (
@@ -7,8 +9,9 @@ function Dashboard() {
       <Sidebar />
       <div className="flex-1">
         <DashboardNavbar />
-        <main className="p-6">
-          <p className="text-gray-600">Dashboard content goes here.</p>
+        <main className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <AccountBalanceCard />
+          <TransactionsCard />
         </main>
       </div>
     </div>
