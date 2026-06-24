@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 
 class Account(BaseModel):
@@ -8,7 +8,10 @@ class Account(BaseModel):
 
 class User(BaseModel):
     name: str
-    email: EmailStr
+    email: str
     password_hash: str
     account_number: str
     balance: float = 0.0
+
+
+
