@@ -5,12 +5,12 @@ const API = axios.create({
 })
 
 export const loginUser = async (email, password) => {
-  const response = await API.post('/api/auth/login', { email, password })
+  const response = await API.post('/auth/login', { email, password })
   return response.data
 }
 
 export const getDashboardData = async () => {
-  const response = await API.get('/api/dashboard')
+  const response = await API.get('/dashboard')
   return response.data
 }
 
