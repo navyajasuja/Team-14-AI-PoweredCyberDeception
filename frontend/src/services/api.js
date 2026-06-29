@@ -14,4 +14,17 @@ export const getDashboardData = async () => {
   return response.data
 }
 
+export const getUserProfile = async (email) => {
+  const response = await API.get(`/users/profile?email=${email}`)
+  return response.data
+}
+
+export const updateUserProfile = async (email, name, newEmail) => {
+  const response = await API.put(`/users/update?email=${email}`, {
+    name,
+    email: newEmail,
+  })
+  return response.data
+}
+
 export default API
