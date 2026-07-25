@@ -8,6 +8,7 @@ function Sidebar() {
     { label: 'Dashboard', path: '/dashboard', icon: '🏠' },
     { label: 'Transactions', path: '/transactions', icon: '💳' },
     { label: 'Profile', path: '/profile', icon: '👤' },
+    { label: 'Analytics', path: '/analytics', icon: '📊' },
   ]
 
   return (
