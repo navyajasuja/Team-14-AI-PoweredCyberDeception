@@ -66,5 +66,11 @@ export const updateUserProfile = async (email, name, newEmail) => {
   return response.data
 }
 
+// ── Analytics ─────────────────────────────────────
+export const getStats = async () => {
+  const response = await API.get('/stats')
+  return response.data
+}
+
 export default API 
 
