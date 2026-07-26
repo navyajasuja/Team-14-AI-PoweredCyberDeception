@@ -1,3 +1,4 @@
+import AttacksBarChart from '../components/AttacksBarChart'
 import { useState, useEffect } from 'react'
 import { getStats } from '../services/api'
 
@@ -67,9 +68,13 @@ function Analytics() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white rounded-lg shadow p-5">
                 <p className="text-sm text-gray-500 mb-4">Attacks by Type</p>
-                <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
-                  Bar chart coming soon
-                </div>
+                <AttacksBarChart data={[
+                  { attack_type: 'SQL Injection', count: 12 },
+                  { attack_type: 'Brute Force', count: 8 },
+                  { attack_type: 'XSS', count: 5 },
+                  { attack_type: 'URL Scanning', count: 15 },
+                  { attack_type: 'Suspicious Agent', count: 3 },
+                  ]} />
               </div>
               <div className="bg-white rounded-lg shadow p-5">
                 <p className="text-sm text-gray-500 mb-4">Attacks Timeline</p>
