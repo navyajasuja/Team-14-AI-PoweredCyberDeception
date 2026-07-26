@@ -72,5 +72,10 @@ export const getStats = async () => {
   return response.data
 }
 
+export const getAttackTypes = async () => {
+  const response = await API.get('/stats/attack-types')
+  return response.data
+}
+
 export default API 
 
