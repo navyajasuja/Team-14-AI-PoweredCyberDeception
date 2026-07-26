@@ -1,13 +1,22 @@
 import AttacksBarChart from '../components/AttacksBarChart'
 import AttacksTimelineChart from '../components/AttacksTimelineChart'
 import AttacksDoughnutChart from '../components/AttacksDoughnutChart'
+import LiveSessionsTable from '../components/LiveSessionsTable'
+
 import { useState, useEffect } from 'react'
-import { getStats, getAttackTypes, getTimeline } from '../services/api'
+
+import {
+  getStats,
+  getAttackTypes,
+  getTimeline,
+  getActiveSessions,
+} from '../services/api'
 
 function Analytics() {
   const [stats, setStats] = useState(null)
   const [attackTypes, setAttackTypes] = useState([])
   const [timeline, setTimeline] = useState([])
+  const [sessions, setSessions] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -22,6 +31,8 @@ function Analytics() {
 
         const timelineData = await getTimeline()
         setTimeline(timelineData)
+        const sessionsData = await getActiveSessions()
+        setSessions(sessionsData)
       } catch (err) {
         setError('Could not load analytics data.')
       } finally {
@@ -160,29 +171,10 @@ function Analytics() {
           <section>
             <h2 className="text-gray-700 font-semibold mb-3">
               Active Sessions
-            </h2>
-
-            <div className="bg-white rounded-lg shadow overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-brand-dark text-white">
-                  <tr>
-                    <th className="text-left px-4 py-3">IP Address</th>
-                    <th className="text-left px-4 py-3">Session Start</th>
-                    <th className="text-left px-4 py-3">Pages Visited</th>
-                    <th className="text-left px-4 py-3">Suspicion Score</th>
-                    <th className="text-left px-4 py-3">Status</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td colSpan="5" className="text-center py-8 text-gray-400">
-                      Sessions data coming soon
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              </h2>
+              
+              <LiveSessionsTable sessions={sessions} />
+              
           </section>
         </main>
       </div>

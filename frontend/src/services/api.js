@@ -8,9 +8,11 @@ const API = axios.create({
 API.interceptors.request.use(
   (config) => {
     const user = localStorage.getItem('user')
+
     if (user) {
       config.headers['X-User-Email'] = user
     }
+
     return config
   },
   (error) => Promise.reject(error)
@@ -24,35 +26,54 @@ API.interceptors.response.use(
       localStorage.removeItem('user')
       window.location.href = '/login'
     }
+
     if (error.response?.status === 500) {
       error.message = 'Server error. Please try again later.'
     }
+
     if (!error.response) {
       error.message = 'Network error. Please check your connection.'
     }
+
     return Promise.reject(error)
   }
 )
 
-// ── Auth ──────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// Auth
+// ─────────────────────────────────────────────────────────────
+
 export const loginUser = async (email, password) => {
-  const response = await API.post('/auth/login', { email, password })
+  const response = await API.post('/auth/login', {
+    email,
+    password,
+  })
+
   return response.data
 }
 
-// ── Dashboard ─────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// Dashboard
+// ─────────────────────────────────────────────────────────────
+
 export const getDashboardData = async () => {
   const response = await API.get('/dashboard')
   return response.data
 }
 
-// ── Transactions ──────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// Transactions
+// ─────────────────────────────────────────────────────────────
+
 export const getTransactions = async (email) => {
   const response = await API.get(`/transactions?email=${email}`)
   return response.data
 }
 
-// ── User Profile ──────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// User Profile
+// ─────────────────────────────────────────────────────────────
+
 export const getUserProfile = async (email) => {
   const response = await API.get(`/users/profile?email=${email}`)
   return response.data
@@ -63,10 +84,14 @@ export const updateUserProfile = async (email, name, newEmail) => {
     name,
     email: newEmail,
   })
+
   return response.data
 }
 
-// ── Analytics ─────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// Analytics
+// ─────────────────────────────────────────────────────────────
+
 export const getStats = async () => {
   const response = await API.get('/stats')
   return response.data
@@ -87,5 +112,9 @@ export const getDecoyReplay = async (sessionId) => {
   return response.data
 }
 
-export default API 
+export const getActiveSessions = async () => {
+  const response = await API.get('/sessions')
+  return response.data
+}
 
+export default API
