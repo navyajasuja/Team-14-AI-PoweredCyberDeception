@@ -30,7 +30,7 @@ function Login() {
     try {
       const data = await loginUser(email, password)
       if (data.success) {
-        login(data.email)
+        login(data.email, data.access_token)
         navigate('/dashboard')
       }
     } catch (err) {

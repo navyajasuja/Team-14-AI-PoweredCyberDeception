@@ -2,17 +2,19 @@ import { useState, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import DashboardNavbar from '../components/DashboardNavbar'
 import { getTransactions } from '../services/api'
+import { useAuth } from '../context/AuthContext'
 import { transactions as mockTransactions } from '../data/mockData'
 
 function Transactions() {
   const [transactions, setTransactions] = useState([])
   const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const data = await getTransactions()
-        setTransactions(data)
+        const data = await getTransactions(user)
+        setTransactions(data.transactions)
       } catch (err) {
         setTransactions(mockTransactions)
       } finally {
@@ -46,25 +48,21 @@ function Transactions() {
                     <th className="text-left px-4 py-3">Description</th>
                     <th className="text-left px-4 py-3">Type</th>
                     <th className="text-left px-4 py-3">Amount</th>
-                    <th className="text-left px-4 py-3">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {transactions.map((tx, index) => (
                     <tr
-                      key={tx.id}
+                      key={index}
                       className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
                     >
-                      <td className="px-4 py-3 text-gray-600">{tx.date}</td>
-                      <td className="px-4 py-3 text-gray-800 font-medium">{tx.description}</td>
-                      <td className="px-4 py-3 text-gray-600">{tx.type}</td>
-                      <td className={`px-4 py-3 font-semibold ${tx.amount < 0 ? 'text-red-500' : 'text-green-600'}`}>
-                        {tx.amount < 0 ? '-' : '+'}₹{Math.abs(tx.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                      <td className="px-4 py-3 text-gray-600">
+                        {new Date(tx.timestamp).toLocaleDateString('en-IN')}
                       </td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${tx.status === 'Completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                          {tx.status}
-                        </span>
+                      <td className="px-4 py-3 text-gray-800 font-medium">{tx.description}</td>
+                      <td className="px-4 py-3 text-gray-600 capitalize">{tx.type}</td>
+                      <td className={`px-4 py-3 font-semibold ${tx.type === 'debit' ? 'text-red-500' : 'text-green-600'}`}>
+                        {tx.type === 'debit' ? '-' : '+'}₹{tx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                       </td>
                     </tr>
                   ))}
