@@ -1,5 +1,6 @@
 import AttacksBarChart from '../components/AttacksBarChart'
 import AttacksTimelineChart from '../components/AttacksTimelineChart'
+import AttacksDoughnutChart from '../components/AttacksDoughnutChart'
 import { useState, useEffect } from 'react'
 import { getStats, getAttackTypes, getTimeline } from '../services/api'
 
@@ -89,9 +90,7 @@ function Analytics() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white rounded-lg shadow p-5">
-                <p className="text-sm text-gray-500 mb-4">
-                  Attacks by Type
-                </p>
+                <p className="text-sm text-gray-500 mb-4">Attacks by Type</p>
 
                 <AttacksBarChart
                   data={
@@ -134,6 +133,32 @@ function Analytics() {
 
           <section>
             <h2 className="text-gray-700 font-semibold mb-3">
+              Attack Type Breakdown
+            </h2>
+
+            <div className="bg-white rounded-lg shadow p-5 max-w-md mx-auto">
+              <p className="text-sm text-gray-500 mb-4 text-center">
+                Attack Distribution
+              </p>
+
+              <AttacksDoughnutChart
+                data={
+                  attackTypes.length > 0
+                    ? attackTypes
+                    : [
+                        { attack_type: 'SQL Injection', count: 12 },
+                        { attack_type: 'Brute Force', count: 8 },
+                        { attack_type: 'XSS', count: 5 },
+                        { attack_type: 'URL Scanning', count: 15 },
+                        { attack_type: 'Suspicious Agent', count: 3 },
+                      ]
+                }
+              />
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-gray-700 font-semibold mb-3">
               Active Sessions
             </h2>
 
@@ -151,10 +176,7 @@ function Analytics() {
 
                 <tbody>
                   <tr>
-                    <td
-                      colSpan="5"
-                      className="text-center py-8 text-gray-400"
-                    >
+                    <td colSpan="5" className="text-center py-8 text-gray-400">
                       Sessions data coming soon
                     </td>
                   </tr>
