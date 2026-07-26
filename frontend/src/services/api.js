@@ -77,5 +77,10 @@ export const getAttackTypes = async () => {
   return response.data
 }
 
+export const getTimeline = async () => {
+  const response = await API.get('/stats/timeline')
+  return response.data
+}
+
 export default API 
 

@@ -1,10 +1,12 @@
 import AttacksBarChart from '../components/AttacksBarChart'
+import AttacksTimelineChart from '../components/AttacksTimelineChart'
 import { useState, useEffect } from 'react'
-import { getStats, getAttackTypes } from '../services/api'
+import { getStats, getAttackTypes, getTimeline } from '../services/api'
 
 function Analytics() {
   const [stats, setStats] = useState(null)
   const [attackTypes, setAttackTypes] = useState([])
+  const [timeline, setTimeline] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -16,6 +18,9 @@ function Analytics() {
 
         const attackData = await getAttackTypes()
         setAttackTypes(attackData)
+
+        const timelineData = await getTimeline()
+        setTimeline(timelineData)
       } catch (err) {
         setError('Could not load analytics data.')
       } finally {
@@ -108,9 +113,21 @@ function Analytics() {
                   Attacks Timeline
                 </p>
 
-                <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
-                  Line chart coming soon
-                </div>
+                <AttacksTimelineChart
+                  data={
+                    timeline.length > 0
+                      ? timeline
+                      : [
+                          { date: 'Jul 19', count: 4 },
+                          { date: 'Jul 20', count: 7 },
+                          { date: 'Jul 21', count: 3 },
+                          { date: 'Jul 22', count: 10 },
+                          { date: 'Jul 23', count: 6 },
+                          { date: 'Jul 24', count: 9 },
+                          { date: 'Jul 25', count: 5 },
+                        ]
+                  }
+                />
               </div>
             </div>
           </section>
