@@ -82,5 +82,10 @@ export const getTimeline = async () => {
   return response.data
 }
 
+export const getDecoyReplay = async (sessionId) => {
+  const response = await API.get(`/decoy-replay/${sessionId}`)
+  return response.data
+}
+
 export default API 
 
